@@ -51,8 +51,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody User user){
+    public User login(@RequestBody User user) {
         return userService.login(user);
+    }
+
+    @PostMapping("/cekEmail")
+    public User cekEmail(@RequestBody String email) {
+        return userService.cekEmail(email);
     }
 
 }

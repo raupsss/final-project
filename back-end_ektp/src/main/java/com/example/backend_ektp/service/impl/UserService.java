@@ -47,8 +47,14 @@ public class UserService implements IUserService {
 
     @Override
     public User login(User user) {
-        
+
         return userRepo.login(user);
+    }
+
+    @Override
+    public User cekEmail(String email) {
+
+        return userRepo.cekEmail(email);
     }
 
 }

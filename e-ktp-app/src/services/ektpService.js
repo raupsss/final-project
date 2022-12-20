@@ -87,6 +87,10 @@ class ektpService {
         return http.put(`user/updateUser/${id}`, data);
     }
 
+    cekEmail(data) {
+        return http.post(`user/cekEmail`, data);
+    }
+
 }
 
 export default new ektpService();

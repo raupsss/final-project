@@ -149,31 +149,72 @@ export default {
 
       this.emailValid = false;
       this.passwordValid = false;
+      let email = false;
+      let password = false;
 
-      if (password1 == password2) {
-        userService
-          .addUser(data)
-          .then((response) => {
-            console.log(response);
-            this.success = true;
-            this.dataRegister = {};
-            this.password2 = "";
-          })
-          .catch((e) => {
-            console.log(e);
-            this.passwordValid = false;
-            this.emailValid = true;
-          });
-      } else {
+      if (password1 !== password2) {
         this.passwordValid = true;
-        // if (this.dataRegister.email == null) {
-        //   this.passwordValid = true;
-        //   this.emailValid = false;
-        // } else {
-        //   this.passwordValid = true;
-        //   this.emailValid = true;
-        // }
+        password = true;
       }
+
+      userService.cekEmail(data.email).then((response) => {
+        if (response.status == 200) {
+          this.emailValid = true;
+          email = true;
+        }
+      });
+
+      if (email == false && password == false) {
+        userService.addUser(data).then((response) => {
+          console.log(response);
+          this.success = true;
+        });
+      }
+
+      // if (password1 !== password2) {
+      //   this.passwordValid = true;
+      // }
+
+      // userService
+      //   .cekEmail(data)
+      //   .then((response) => {
+      //     if (!this.emailValid && !this.passwordValid) {
+      //       console.log(response);
+      //       userService
+      //         .addUser(data)
+      //         .then((response) => {
+      //           console.log(response.data);
+      //           this.emailValid = false;
+      //           this.passwordValid = false;
+      //           this.success = true;
+      //         })
+      //         .catch((e) => {
+      //           console.log(e);
+      //         });
+      //     }
+      //   })
+      //   .catch((e) => {
+      //     console.log(e);
+      //   });
+
+      // if (password1 == password2) {
+      //   userService
+      //     .addUser(data)
+      //     .then((response) => {
+      //       console.log(response);
+      //       this.success = true;
+      //       this.dataRegister = {};
+      //       this.password2 = "";
+      //     })
+      //     .catch((e) => {
+      //       console.log(e);
+      //       this.passwordValid = false;
+      //       this.emailValid = true;
+      //     });
+      // } else {
+      //   this.passwordValid = true;
+      //
+      // }
     },
   },
 };

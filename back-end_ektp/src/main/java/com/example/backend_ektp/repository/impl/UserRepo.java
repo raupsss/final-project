@@ -51,7 +51,7 @@ public class UserRepo implements IUserRepo {
 
         String query = "SELECT * FROM tb_user WHERE id = ?";
 
-        var result = jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(User.class), id );
+        var result = jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(User.class), id);
 
         query = "DELETE FROM tb_user WHERE id = ?";
         jdbcTemplate.update(query, id);
@@ -73,6 +73,21 @@ public class UserRepo implements IUserRepo {
         var result = jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(User.class), new Object[] {
                 user.getEmail(), user.getPassword()
         });
+        return result;
+    }
+
+    @Override
+    public User cekEmail(String email) {
+
+        User result = new User();
+        String query = "SELECT * FROM tb_user WHERE email LIKE ?";
+        try {
+            result = jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(User.class), email);
+        } catch (
+
+        Exception e) {
+            result = new User();
+        }
         return result;
     }
 

@@ -18,4 +18,5 @@ public interface IUserRepo {
 
     public User login(User user);
 
+    public User cekEmail(String email);
 }

@@ -54,7 +54,15 @@
       </section>
       <section class="content-header mt-5">
         <div class="container-fluid px-lg-4">
-          <h2 class="text-center mb-5">Data Kartu Keluarga</h2>
+          <div class="d-flex justify-content-around">
+            <h2 class="text-center mb-5">Data Kartu Keluarga</h2>
+            <input
+              v-model="search"
+              class="form-control mr-sm-2 w-25"
+              type="number"
+              placeholder="Search"
+            />
+          </div>
           <table
             class="
               table table-striped table-hover
@@ -74,7 +82,7 @@
             </thead>
             <tbody>
               <tr
-                v-for="(item, index) in dataKK"
+                v-for="(item, index) in cariNoKK"
                 :key="index"
                 class="text-center"
               >
@@ -123,6 +131,7 @@
 
 <script>
 import kartuKeluargaService from "@/services/ektpService";
+import Swal from "sweetalert2";
 
 export default {
   name: "HomeView",
@@ -132,9 +141,17 @@ export default {
       dataAnggota: [],
       dataUser: [],
       success: false,
+      search: "",
     };
   },
   components: {},
+  computed: {
+    cariNoKK() {
+      return this.dataKK.filter((item) =>
+        String(item.nomor_kk).includes(this.search)
+      );
+    },
+  },
   methods: {
     getAllKK() {
       kartuKeluargaService
@@ -168,26 +185,40 @@ export default {
     },
 
     deleteKK(id) {
-      this.$confirm(
-        "Apakah Anda akan menghapus data KK ini beserta anggotanya ?"
-      ).then(() => {
-        kartuKeluargaService
-          .deleteKK(id)
-          .then((response) => {
-            console.log(response.data);
-            kartuKeluargaService
-              .deleteAllAnggota(id)
-              .then((response) => {
-                console.log(response.data);
-              })
-              .catch((e) => {
-                console.log(e);
-              });
+      Swal.fire({
+        icon: "error",
+        title: `Hapus data KK ini beserta anggotanya ?`,
+        text: "Klik Cancel untuk Batal",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Hapus",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          kartuKeluargaService
+            .deleteKK(id)
+            .then((response) => {
+              console.log(response.data);
+              kartuKeluargaService
+                .deleteAllAnggota(id)
+                .then((response) => {
+                  console.log(response.data);
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+          Swal.fire(
+            "Terhapus !",
+            "Data KK dan Anggotanya telah terhapus",
+            "success"
+          ).then(() => {
             location.reload();
-          })
-          .catch((e) => {
-            console.log(e);
           });
+        }
       });
     },
   },

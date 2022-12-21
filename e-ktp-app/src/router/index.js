@@ -52,11 +52,6 @@ const routes = [
         path: '/detailKK/:id/listAnggota/detailAnggota/:idAnggota',
         name: 'DetailAnggota',
         component: () => import('../views/DetailAnggota')
-      },
-      {
-        path: '/user/detailUser/:id',
-        name: 'DetailUser',
-        component: () => import('../views/DetailUser')
       }
 
     ]

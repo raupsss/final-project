@@ -154,6 +154,7 @@
 
 <script>
 import userService from "@/services/ektpService";
+import Swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -182,18 +183,31 @@ export default {
     },
 
     deleteUser(id, nama) {
-      this.$confirm(
-        `Apakah Anda yakin ingin menghapus ${nama} dari User `
-      ).then(() => {
-        userService
-          .deleteUser(id)
-          .then((response) => {
-            console.log(response.data);
-            location.reload();
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+      Swal.fire({
+        icon: "error",
+        title: `Hapus ${nama} dari User admin ?`,
+        text: "Klik Cancel untuk Batal",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Hapus",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          userService
+            .deleteUser(id)
+            .then((response) => {
+              console.log(response.data);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+
+          Swal.fire("Terhapus !", "Data User telah terhapus", "success").then(
+            () => {
+              location.reload();
+            }
+          );
+        }
       });
     },
 

@@ -170,51 +170,6 @@ export default {
           this.success = true;
         });
       }
-
-      // if (password1 !== password2) {
-      //   this.passwordValid = true;
-      // }
-
-      // userService
-      //   .cekEmail(data)
-      //   .then((response) => {
-      //     if (!this.emailValid && !this.passwordValid) {
-      //       console.log(response);
-      //       userService
-      //         .addUser(data)
-      //         .then((response) => {
-      //           console.log(response.data);
-      //           this.emailValid = false;
-      //           this.passwordValid = false;
-      //           this.success = true;
-      //         })
-      //         .catch((e) => {
-      //           console.log(e);
-      //         });
-      //     }
-      //   })
-      //   .catch((e) => {
-      //     console.log(e);
-      //   });
-
-      // if (password1 == password2) {
-      //   userService
-      //     .addUser(data)
-      //     .then((response) => {
-      //       console.log(response);
-      //       this.success = true;
-      //       this.dataRegister = {};
-      //       this.password2 = "";
-      //     })
-      //     .catch((e) => {
-      //       console.log(e);
-      //       this.passwordValid = false;
-      //       this.emailValid = true;
-      //     });
-      // } else {
-      //   this.passwordValid = true;
-      //
-      // }
     },
   },
 };

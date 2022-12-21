@@ -230,6 +230,7 @@
 
 <script>
 import anggotaService from "@/services/ektpService";
+import Swal from "sweetalert2";
 
 export default {
   name: "ListAnggota",
@@ -289,18 +290,31 @@ export default {
     },
 
     deleteAnggota(id, nama) {
-      this.$confirm(
-        `Apakah Anda ingin menghapus ${nama} dari Anggota Kelaurga ?`
-      ).then(() => {
-        anggotaService
-          .deleteAnggota(id)
-          .then((response) => {
-            console.log(response.data);
-            location.reload();
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+      Swal.fire({
+        icon: "error",
+        title: `Apakah Anda ingin menghapus ${nama} dari Anggota Keluarga ?`,
+        text: "Klik Cancel untuk Batal",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Hapus",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          anggotaService
+            .deleteAnggota(id)
+            .then((response) => {
+              console.log(response.data);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+
+          Swal.fire("Terhapus !", "Data User telah terhapus", "success").then(
+            () => {
+              location.reload();
+            }
+          );
+        }
       });
     },
   },
